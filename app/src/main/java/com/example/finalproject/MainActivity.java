@@ -7,9 +7,6 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-
 /** Load the main page.*/
 public class MainActivity extends AppCompatActivity {
 

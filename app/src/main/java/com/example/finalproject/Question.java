@@ -3,7 +3,6 @@ package com.example.finalproject;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -14,8 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.io.FileNotFoundException;
-import java.io.OutputStream;
 import java.util.Locale;
 
 public class Question extends AppCompatActivity {
@@ -28,10 +25,10 @@ public class Question extends AppCompatActivity {
             "the fourth daughter is named nono." +
             "What is the name of the fifth daughter?";
     private String Q5 = "On average, how many books can you put in an empty backpack?";
-    private String A1 = "After you excel the second place, you just replace him -- now you are in the second place!";
+    private String A1 = "After you excel the second place, you just replace him!";
     private String A2 = "Paradox: how can you excel the last one?";
-    private String A3 = "Answer: 4100 (calculate it slower, or use a calculator!)";
-    private String A4 = "It's Mary! Read the question again!";
+    private String A3 = "calculate it slower, or use a calculator!";
+    private String A4 = "Read the question again!";
     private String A5 = "1";
     private String challenge = "Challenge ";
     private Button submit;
@@ -111,9 +108,15 @@ public class Question extends AppCompatActivity {
                         showMyDialog();
                         updateUICorrection();
                     } else {
-                        openDialog();
-                        updateUI();
-                        finish();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(Question.this);
+                        builder.setTitle("Congratulations!").setMessage("Well Done!").setPositiveButton("Dismiss",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        updateUI();
+                                    }
+                                });
+                        builder.create().show();
                     }
                 }
             }
@@ -208,7 +211,12 @@ public class Question extends AppCompatActivity {
         } else if (question.getText().toString().equals(Q5)) {
             score.setText("100/100");
             mediaPlayer.stop();
-            return;
+            ScoreData myData = new ScoreData(title.getText().toString(), score.getText().toString(),
+                    user);
+            ScoreData.scoreData.add(myData);
+            Intent intent = new Intent(Question.this, End.class);
+            startActivity(intent);
+            finish();
         }
         EditText answer = findViewById(R.id.answer);
         answer.setText("");
